@@ -16,9 +16,9 @@ void Maze::readMazeFile(std::string fileName) {
 				int splitIndex = line.find(' ');
 				this->rowCount = std::stoi(line.substr(0, splitIndex));
 				this->columnCount = std::stoi(line.substr(splitIndex + 1, line.length() - 1));
-				textureMatrix.resize(rowCount);
-				for (int i = 0; i < textureMatrix.size(); i++) {
-					textureMatrix[i].resize(columnCount);
+				maze.resize(rowCount);
+				for (int i = 0; i < maze.size(); i++) {
+					maze[i].resize(columnCount);
 				}
 
 			} else if (lineNumber == 1) {
@@ -29,7 +29,7 @@ void Maze::readMazeFile(std::string fileName) {
 				printf("startRow: %i\n", startColumn);
 			} else {
 				for (int currentColumn = 0; currentColumn < columnCount; currentColumn++) {
-					textureMatrix[lineNumber - headerLineCount][currentColumn] = line[currentColumn];
+					maze[lineNumber - headerLineCount][currentColumn] = line[currentColumn];
 				}
 			}
 			lineNumber++;

@@ -12,6 +12,6 @@ private:
 	int columnCount;
 	int startRow;
 	int startColumn;
-	std::vector<std::vector<char>> textureMatrix;
+	std::vector<std::vector<char>> maze;
 };
 
