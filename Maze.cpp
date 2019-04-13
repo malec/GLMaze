@@ -3,8 +3,7 @@
 #include <fstream>
 #include <exception>
 
-Maze::Maze()
-{
+Maze::Maze() {
 }
 
 void Maze::readMazeFile(std::string fileName) {
@@ -22,28 +21,24 @@ void Maze::readMazeFile(std::string fileName) {
 					textureMatrix[i].resize(columnCount);
 				}
 
-			}
-			else if (lineNumber == 1) {
+			} else if (lineNumber == 1) {
 				int splitIndex = line.find(' ');
 				this->startRow = std::stoi(line.substr(0, splitIndex));
 				this->startColumn = std::stoi(line.substr(splitIndex + 1, line.length() - 1));
 				printf("startRow: %i\n", startRow);
 				printf("startRow: %i\n", startColumn);
-			}
-			else {
+			} else {
 				for (int currentColumn = 0; currentColumn < columnCount; currentColumn++) {
 					textureMatrix[lineNumber - headerLineCount][currentColumn] = line[currentColumn];
 				}
 			}
 			lineNumber++;
 		}
-	}
-	else {
+	} else {
 		throw std::exception("Could not open the file.");
 	}
 }
 
 
-Maze::~Maze()
-{
+Maze::~Maze() {
 }

@@ -1,13 +1,12 @@
 #pragma once
 #include <string>
 #include <vector>
-class Maze
-{
+class Maze {
 public:
 	Maze();
 	void readMazeFile(std::string fileName);
 	~Maze();
-private: 
+private:
 	const int headerLineCount = 2;
 	int rowCount;
 	int columnCount;
