@@ -88,6 +88,8 @@ void cube(float midx, float midy, float midz, float size)
 }
 
 float xAngle = 0;
+float yAngle = 0;
+float zAngle = 0;
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	//draw floor
@@ -111,8 +113,11 @@ void display() {
 		}
 	}
 	glRotatef(xAngle, 1, 0, 0);
-	glRotatef(xAngle, 0, 1, 0);
+	glRotatef(yAngle, 0, 1, 0);
+	glRotatef(zAngle, 0, 0, 1);
 	xAngle = 0;
+	yAngle = 0;
+	zAngle = 0;
 	glFlush();
 }
 
@@ -123,6 +128,18 @@ void keyboard(unsigned char key, int x, int y) {
 	}
 	else if (key == 'X') {
 		xAngle += 5;
+		glutPostRedisplay();
+	} else if (key == 'y') {
+		yAngle -= 5;
+		glutPostRedisplay();
+	} else if (key == 'Y') {
+		yAngle += 5;
+		glutPostRedisplay();
+	} else if (key == 'z') {
+		zAngle -= 5;
+		glutPostRedisplay();
+	} else if (key == 'Z') {
+		zAngle += 5;
 		glutPostRedisplay();
 	}
 }
