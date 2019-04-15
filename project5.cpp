@@ -9,8 +9,7 @@
 
 Maze maze = Maze();
 
-void cube(float midx, float midy, float midz, float size)
-{
+void cube(float midx, float midy, float midz, float size) {
 	// Define 8 vertices
 	float ax = midx - size / 2;
 	float ay = midy - size / 2;
@@ -155,8 +154,7 @@ void keyboard(unsigned char key, int x, int y) {
 	}
 	glutPostRedisplay();
 }
-void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float Lg, float Lb)
-{
+void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float Lg, float Lb) {
 	// Light variables
 	float light_position[] = { Lx, Ly, Lz, 0.0 };
 	float light_color[] = { Lr, Lg, Lb, 1.0 };
@@ -174,11 +172,43 @@ void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float 
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 }
+void init_texture(char *name, unsigned char *&texture, int &xdim, int &ydim) {
+	// Read jpg image
+	// GLubyte myTextels[512][512];
+	im_color image;
+	image.ReadJpg(name);
+	printf("Reading image %s\n", name);
+	xdim = 1; while (xdim < image.R.Xdim) xdim *= 2; xdim /= 2;
+	ydim = 1; while (ydim < image.R.Ydim) ydim *= 2; ydim /= 2;
+	image.Interpolate(xdim, ydim);
+	printf("Interpolating to %d by %d\n", xdim, ydim);
+
+	// Copy image into texture array
+	texture = (unsigned char *)malloc((unsigned int)(xdim*ydim * 3));
+	int index = 0;
+	for (int y = 0; y < ydim; y++)
+		for (int x = 0; x < xdim; x++) {
+			texture[index++] = (unsigned char)(image.R.Data2D[y][x]);
+			texture[index++] = (unsigned char)(image.G.Data2D[y][x]);
+			texture[index++] = (unsigned char)(image.B.Data2D[y][x]);
+		}
+}
 void init() {
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_NORMALIZE);
 	init_light(GL_LIGHT0, 0, 1, 1, 0.5, 0.5, 0.5);
+
+	// Init texture
+	int xdim, ydim;
+	unsigned char *texture;
+	init_texture((char *)"textures/brick0.jpg", texture, xdim, ydim);
+	glEnable(GL_TEXTURE_2D);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, texture);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 }
 int main(int argc, char* argv[]) {
 	const auto mazeFileName = "maze.txt";
