@@ -107,7 +107,7 @@ void init_material(float Ka, float Kd, float Ks, float Kp, float Mr, float Mg, f
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, Kp);
 }
 void display() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glRotatef(xAngle, 1.0, 0.0, 0.0);
 	glRotatef(yAngle, 0.0, 1.0, 0.0);
@@ -125,19 +125,32 @@ void display() {
 	yAngle = 0;
 	zAngle = 0;
 	// draw the cube
-	glPushMatrix();
+	// glPushMatrix();
 	for (int x = 0; x < maze.getRowCount(); x++) {
 		for (int z = 0; z < maze.getColumnCount(); z++) {
-			int height = 1;
-			if (maze.isVerticalBlock(x, z)) {
-					height = 3;
+			int height = 0;
+			char material = maze.getBlockMaterial(x, z);
+			if (material != ' ') {
+				height = 3;
 			}
-			for (float y = 0; y < maze.getBlockXSize() * height; y += maze.getBlockXSize()) {
-				float xCoord = x * maze.getBlockXSize() - .6;
-				float zCoord = z * maze.getBlockZSize() - .6;
+			for (int y = 0; y < height; y++) {
+				float xCoord = x * maze.getBlockXSize() - .5;
+				float yCoord = y * maze.getBlockYSize();
+				float zCoord = z * maze.getBlockZSize() - .5;
 				printf("%f, %f\n", x, z);
-				init_material(Ka, Kd, Ks, 100 * Kp, 0.9, 0, 0);
-				cube(xCoord, y, zCoord, maze.getBlockXSize());
+				if (material == 'g') {
+					init_material(Ka, Kd, Ks, 100 * Kp, 0, 1.0, 0);
+				}
+				else if (material == 'r') {
+					init_material(Ka, Kd, Ks, 100 * Kp, 1.0, 0, 0);
+				}
+				else if (material == 'b') {
+					init_material(Ka, Kd, Ks, 100 * Kp, 0, 0, 1.0);
+				}
+				else {
+					init_material(Ka, Kd, Ks, 100 * Kp, 1, 1, 1);
+				}
+				cube(xCoord, yCoord, zCoord, maze.getBlockYSize() / 3);
 			}
 		}
 	}
@@ -146,17 +159,23 @@ void display() {
 void keyboard(unsigned char key, int x, int y) {
 	if (key == 'x') {
 		xAngle -= 5;
-	} else if (key == 'X') {
+	}
+	else if (key == 'X') {
 		xAngle += 5;
-	} else if (key == 'y') {
+	}
+	else if (key == 'y') {
 		yAngle -= 5;
-	} else if (key == 'Y') {
+	}
+	else if (key == 'Y') {
 		yAngle += 5;
-	} else if (key == 'z') {
+	}
+	else if (key == 'z') {
 		zAngle -= 5;
-	} else if (key == 'Z') {
+	}
+	else if (key == 'Z') {
 		zAngle += 5;
-	} else if (key == 'r' || key == 'R') {
+	}
+	else if (key == 'r' || key == 'R') {
 		xAngle = 0;
 		yAngle = 0;
 		zAngle = 0;
