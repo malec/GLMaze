@@ -8,8 +8,9 @@ public:
 	int getColumnCount();
 	int getRowCount();
 	float getBlockXSize();
+	float getBlockYSize();
 	float getBlockZSize();
-	bool isVerticalBlock(int x, int y);
+	char getBlockMaterial(int x, int y);
 	~Maze();
 private:
 	const int headerLineCount = 2;

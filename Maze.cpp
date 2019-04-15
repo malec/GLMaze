@@ -17,6 +17,9 @@ float Maze::getBlockXSize() {
 float Maze::getBlockZSize() {
 	return 1.0 / this->columnCount;
 }
+float Maze::getBlockYSize() {
+	return 0.125;
+}
 void Maze::readMazeFile(std::string fileName) {
 	std::ifstream fileStream(fileName);
 	if (fileStream.is_open()) {
@@ -49,12 +52,8 @@ void Maze::readMazeFile(std::string fileName) {
 		throw std::exception("Could not open the file.");
 	}
 }
-bool Maze::isVerticalBlock(int x, int y) {
-	if (this->maze[x][y] == ' ') {
-		return false;
-	} else {
-		return true;
-	}
+char Maze::getBlockMaterial(int x, int y) {
+	return this->maze[x][y];
 }
 Maze::~Maze() {
 }
