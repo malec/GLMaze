@@ -9,6 +9,7 @@ public:
 	int getRowCount();
 	float getBlockXSize();
 	float getBlockZSize();
+	bool isVerticalBlock(int x, int y);
 	~Maze();
 private:
 	const int headerLineCount = 2;

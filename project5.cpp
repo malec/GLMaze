@@ -121,14 +121,23 @@ void display() {
 	glVertex3f(.8, 0, .8);
 	glVertex3f(.8, 0, -.8);
 	glEnd();
+	xAngle = 0;
+	yAngle = 0;
+	zAngle = 0;
 	// draw the cube
 	glPushMatrix();
-	for (float x = -.7; x < .7; x += maze.getBlockXSize()) {
-		for (float z = -.7; z < .7; z += maze.getBlockZSize()) {
-			for (float y = 0; y < .1; y += maze.getBlockXSize()) {
+	for (int x = 0; x < maze.getRowCount(); x++) {
+		for (int z = 0; z < maze.getColumnCount(); z++) {
+			int height = 1;
+			if (maze.isVerticalBlock(x, z)) {
+				height = 3;
+			}
+			for (float y = 0; y < maze.getBlockXSize() * height; y += maze.getBlockXSize()) {
+				float xCoord = x * maze.getBlockXSize() - .6;
+				float zCoord = z * maze.getBlockZSize() - .6;
 				printf("%f, %f\n", x, z);
 				init_material(Ka, Kd, Ks, 100 * Kp, 0.9, 0, 0);
-				cube(x, y, z, maze.getBlockXSize());
+				cube(xCoord, y, zCoord, maze.getBlockXSize());
 			}
 		}
 	}
@@ -172,27 +181,27 @@ void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float 
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 }
-void init_texture(char *name, unsigned char *&texture, int &xdim, int &ydim) {
-	// Read jpg image
-	// GLubyte myTextels[512][512];
-	im_color image;
-	image.ReadJpg(name);
-	printf("Reading image %s\n", name);
-	xdim = 1; while (xdim < image.R.Xdim) xdim *= 2; xdim /= 2;
-	ydim = 1; while (ydim < image.R.Ydim) ydim *= 2; ydim /= 2;
-	image.Interpolate(xdim, ydim);
-	printf("Interpolating to %d by %d\n", xdim, ydim);
-
-	// Copy image into texture array
-	texture = (unsigned char *)malloc((unsigned int)(xdim*ydim * 3));
-	int index = 0;
-	for (int y = 0; y < ydim; y++)
-		for (int x = 0; x < xdim; x++) {
-			texture[index++] = (unsigned char)(image.R.Data2D[y][x]);
-			texture[index++] = (unsigned char)(image.G.Data2D[y][x]);
-			texture[index++] = (unsigned char)(image.B.Data2D[y][x]);
-		}
-}
+//void init_texture(char *name, unsigned char *&texture, int &xdim, int &ydim) {
+//	// Read jpg image
+//	// GLubyte myTextels[512][512];
+//	im_color image;
+//	image.ReadJpg(name);
+//	printf("Reading image %s\n", name);
+//	xdim = 1; while (xdim < image.R.Xdim) xdim *= 2; xdim /= 2;
+//	ydim = 1; while (ydim < image.R.Ydim) ydim *= 2; ydim /= 2;
+//	image.Interpolate(xdim, ydim);
+//	printf("Interpolating to %d by %d\n", xdim, ydim);
+//
+//	// Copy image into texture array
+//	texture = (unsigned char *)malloc((unsigned int)(xdim*ydim * 3));
+//	int index = 0;
+//	for (int y = 0; y < ydim; y++)
+//		for (int x = 0; x < xdim; x++) {
+//			texture[index++] = (unsigned char)(image.R.Data2D[y][x]);
+//			texture[index++] = (unsigned char)(image.G.Data2D[y][x]);
+//			texture[index++] = (unsigned char)(image.B.Data2D[y][x]);
+//		}
+//}
 void init() {
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glShadeModel(GL_SMOOTH);
@@ -200,15 +209,15 @@ void init() {
 	init_light(GL_LIGHT0, 0, 1, 1, 0.5, 0.5, 0.5);
 
 	// Init texture
-	int xdim, ydim;
-	unsigned char *texture;
-	init_texture((char *)"textures/brick0.jpg", texture, xdim, ydim);
-	glEnable(GL_TEXTURE_2D);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, texture);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//int xdim, ydim;
+	//unsigned char *texture;
+	//// init_texture((char *)"textures/brick0.jpg", texture, xdim, ydim);
+	//glEnable(GL_TEXTURE_2D);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, texture);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 }
 int main(int argc, char* argv[]) {
 	const auto mazeFileName = "maze.txt";

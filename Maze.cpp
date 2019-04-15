@@ -49,5 +49,12 @@ void Maze::readMazeFile(std::string fileName) {
 		throw std::exception("Could not open the file.");
 	}
 }
+bool Maze::isVerticalBlock(int x, int y) {
+	if (this->maze[x][y] == ' ') {
+		return false;
+	} else {
+		return true;
+	}
+}
 Maze::~Maze() {
 }
