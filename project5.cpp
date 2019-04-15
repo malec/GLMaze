@@ -113,10 +113,10 @@ void display() {
 	init_material(Ka, Kd, Ks, 100 * Kp, 0.8, 0.6, 0.4);
 	glBegin(GL_POLYGON);
 	glColor3f(0.1, 0.1, 0.1);
-	glVertex3f(-.9, 0, -.9);
-	glVertex3f(-.9, 0, .9);
-	glVertex3f(.9, 0, .9);
-	glVertex3f(.9, 0, -.9);
+	glVertex3f(-.8, 0, -.8);
+	glVertex3f(-.8, 0, .8);
+	glVertex3f(.8, 0, .8);
+	glVertex3f(.8, 0, -.8);
 	glEnd();
 	// draw the cube
 	glPushMatrix();
