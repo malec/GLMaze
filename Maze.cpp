@@ -5,7 +5,18 @@
 
 Maze::Maze() {
 }
-
+int Maze::getRowCount() {
+	return this->rowCount;
+}
+int Maze::getColumnCount() {
+	return this->columnCount;
+}
+float Maze::getBlockXSize() {
+	return 1 / this->rowCount;
+}
+float Maze::getBlockZSize() {
+	return 1 / this->columnCount;
+}
 void Maze::readMazeFile(std::string fileName) {
 	std::ifstream fileStream(fileName);
 	if (fileStream.is_open()) {
@@ -38,7 +49,5 @@ void Maze::readMazeFile(std::string fileName) {
 		throw std::exception("Could not open the file.");
 	}
 }
-
-
 Maze::~Maze() {
 }

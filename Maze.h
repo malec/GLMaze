@@ -5,6 +5,10 @@ class Maze {
 public:
 	Maze();
 	void readMazeFile(std::string fileName);
+	int getColumnCount();
+	int getRowCount();
+	float getBlockXSize();
+	float getBlockZSize();
 	~Maze();
 private:
 	const int headerLineCount = 2;
