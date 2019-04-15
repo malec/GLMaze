@@ -39,7 +39,7 @@ void cube(float midx, float midy, float midz, float size)
 
 	// Draw 6 faces
 	glBegin(GL_POLYGON);
-	glColor3f(1.0, 0.1, 0.0);
+	glColor3f(1.0, 0, 0.0);
 	glVertex3f(ax, ay, az);
 	glVertex3f(bx, by, bz);
 	glVertex3f(cx, cy, cz);
@@ -47,7 +47,7 @@ void cube(float midx, float midy, float midz, float size)
 	glEnd();
 
 	glBegin(GL_POLYGON);
-	glColor3f(.9, 0.1, 0.0);
+	glColor3f(1, 0, 0.0);
 	glVertex3f(ax, ay, az);
 	glVertex3f(dx, dy, dz);
 	glVertex3f(hx, hy, hz);
@@ -55,7 +55,7 @@ void cube(float midx, float midy, float midz, float size)
 	glEnd();
 
 	glBegin(GL_POLYGON);
-	glColor3f(1.9, 0.1, 0.0);
+	glColor3f(1, 0, 0.0);
 	glVertex3f(ax, ay, az);
 	glVertex3f(ex, ey, ez);
 	glVertex3f(fx, fy, fz);
@@ -63,7 +63,7 @@ void cube(float midx, float midy, float midz, float size)
 	glEnd();
 
 	glBegin(GL_POLYGON);
-	glColor3f(.9, 0.1, 0.0);
+	glColor3f(1, 0, 0.0);
 	glVertex3f(gx, gy, gz);
 	glVertex3f(fx, fy, fz);
 	glVertex3f(ex, ey, ez);
