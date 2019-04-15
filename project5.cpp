@@ -90,9 +90,27 @@ void cube(float midx, float midy, float midz, float size)
 float xAngle = 0;
 float yAngle = 0;
 float zAngle = 0;
+// Material properties
+float Ka = 0.2;
+float Kd = 0.5;
+float Ks = 0.7;
+float Kp = 0.6;
+void init_material(float Ka, float Kd, float Ks, float Kp, float Mr, float Mg, float Mb) {
+	// Material variables
+	float ambient[] = { Ka * Mr, Ka * Mg, Ka * Mb, 1.0 };
+	float diffuse[] = { Kd * Mr, Kd * Mg, Kd * Mb, 1.0 };
+	float specular[] = { Ks * Mr, Ks * Mg, Ks * Mb, 1.0 };
+
+	// Initialize material
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, Kp);
+}
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	//draw floor
+	init_material(Ka, Kd, Ks, 100 * Kp, 0.8, 0.6, 0.4);
 	glBegin(GL_POLYGON);
 	glColor3f(0.1, 0.1, 0.1);
 	glVertex3f(-.9, 0, -.9);
@@ -110,6 +128,7 @@ void display() {
 	for (int i = 0; i < maze.getRowCount(); i++) {
 		for (int j = 0; j < maze.getColumnCount(); j++) {
 			cube(i * (2 / maze.getRowCount()) - 1.25, 0, j * (2 / maze.getColumnCount()) - 1.25, .125);
+			init_material(Ka, Kd, Ks, 100 * Kp, 0.1, 0.1, 0.1);
 		}
 	}
 	glRotatef(xAngle, 1, 0, 0);
@@ -120,7 +139,6 @@ void display() {
 	zAngle = 0;
 	glFlush();
 }
-
 void keyboard(unsigned char key, int x, int y) {
 	if (key == 'x') {
 		xAngle -= 5;
@@ -143,16 +161,31 @@ void keyboard(unsigned char key, int x, int y) {
 		glutPostRedisplay();
 	}
 }
+void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float Lg, float Lb)
+{
+	// Light variables
+	float light_position[] = { Lx, Ly, Lz, 0.0 };
+	float light_color[] = { Lr, Lg, Lb, 1.0 };
 
+	// Initialize light source
+	glEnable(GL_LIGHTING);
+	glEnable(light_source);
+	glLightfv(light_source, GL_POSITION, light_position);
+	glLightfv(light_source, GL_AMBIENT, light_color);
+	glLightfv(light_source, GL_DIFFUSE, light_color);
+	glLightfv(light_source, GL_SPECULAR, light_color);
+	glLightf(light_source, GL_CONSTANT_ATTENUATION, 1.0);
+	glLightf(light_source, GL_LINEAR_ATTENUATION, 0.0);
+	glLightf(light_source, GL_QUADRATIC_ATTENUATION, 0.0);
+	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
+	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+}
 void init() {
 	glClearColor(0.0, 0.0, 0.0, 1.0);
-	/*glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();*/
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_NORMALIZE);
+	init_light(GL_LIGHT0, 0, 1, 1, 0.5, 0.5, 0.5);
 }
-
 int main(int argc, char* argv[]) {
 	const auto mazeFileName = "maze.txt";
 	maze.readMazeFile(mazeFileName);
