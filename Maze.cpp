@@ -12,10 +12,10 @@ int Maze::getColumnCount() {
 	return this->columnCount;
 }
 float Maze::getBlockXSize() {
-	return 1 / this->rowCount;
+	return 1.0 / this->rowCount;
 }
 float Maze::getBlockZSize() {
-	return 1 / this->columnCount;
+	return 1.0 / this->columnCount;
 }
 void Maze::readMazeFile(std::string fileName) {
 	std::ifstream fileStream(fileName);

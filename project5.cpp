@@ -108,7 +108,11 @@ void init_material(float Ka, float Kd, float Ks, float Kp, float Mr, float Mg, f
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, Kp);
 }
 void display() {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glRotatef(xAngle, 1.0, 0.0, 0.0);
+	glRotatef(yAngle, 0.0, 1.0, 0.0);
+	glRotatef(zAngle, 0.0, 0.0, 1.0);
 	//draw floor
 	init_material(Ka, Kd, Ks, 100 * Kp, 0.8, 0.6, 0.4);
 	glBegin(GL_POLYGON);
@@ -120,46 +124,36 @@ void display() {
 	glEnd();
 	// draw the cube
 	glPushMatrix();
-	cube(-1, 0, -1, .125);
-	cube(-1, 0, -.8, .125);
-	cube(-1, 0, -.6, .125);
-	cube(-1, 0, -.4, .125);
-	cube(-1, 0, -.2, .125);
-	for (int i = 0; i < maze.getRowCount(); i++) {
-		for (int j = 0; j < maze.getColumnCount(); j++) {
-			cube(i * (2 / maze.getRowCount()) - 1.25, 0, j * (2 / maze.getColumnCount()) - 1.25, .125);
-			init_material(Ka, Kd, Ks, 100 * Kp, 0.1, 0.1, 0.1);
+	for (float x = -.7; x < .7; x += maze.getBlockXSize()) {
+		for (float z = -.7; z < .7; z += maze.getBlockZSize()) {
+			for (float y = 0; y < .1; y += maze.getBlockXSize()) {
+				printf("%f, %f\n", x, z);
+				init_material(Ka, Kd, Ks, 100 * Kp, 0.9, 0, 0);
+				cube(x, y, z, maze.getBlockXSize());
+			}
 		}
 	}
-	glRotatef(xAngle, 1, 0, 0);
-	glRotatef(yAngle, 0, 1, 0);
-	glRotatef(zAngle, 0, 0, 1);
-	xAngle = 0;
-	yAngle = 0;
-	zAngle = 0;
 	glFlush();
 }
 void keyboard(unsigned char key, int x, int y) {
 	if (key == 'x') {
 		xAngle -= 5;
-		glutPostRedisplay();
-	}
-	else if (key == 'X') {
+	} else if (key == 'X') {
 		xAngle += 5;
-		glutPostRedisplay();
 	} else if (key == 'y') {
 		yAngle -= 5;
-		glutPostRedisplay();
 	} else if (key == 'Y') {
 		yAngle += 5;
-		glutPostRedisplay();
 	} else if (key == 'z') {
 		zAngle -= 5;
-		glutPostRedisplay();
 	} else if (key == 'Z') {
 		zAngle += 5;
-		glutPostRedisplay();
+	} else if (key == 'r' || key == 'R') {
+		xAngle = 0;
+		yAngle = 0;
+		zAngle = 0;
 	}
+	glutPostRedisplay();
 }
 void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float Lg, float Lb)
 {
