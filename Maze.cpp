@@ -12,10 +12,10 @@ int Maze::getColumnCount() {
 	return this->columnCount;
 }
 float Maze::getBlockXSize() {
-	return 1.0 / this->rowCount;
+	return 1.0 / this->columnCount;
 }
 float Maze::getBlockZSize() {
-	return 1.0 / this->columnCount;
+	return 1.0 / this->rowCount;
 }
 float Maze::getBlockYSize() {
 	return 0.125;

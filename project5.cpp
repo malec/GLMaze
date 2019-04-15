@@ -93,9 +93,11 @@ void init_material(float Ka, float Kd, float Ks, float Kp, float Mr, float Mg, f
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
+	// glLoadIdentity();
 	glRotatef(xAngle, 1.0, 0.0, 0.0);
 	glRotatef(yAngle, 0.0, 1.0, 0.0);
 	glRotatef(zAngle, 0.0, 0.0, 1.0);
+
 	//draw floor
 	init_material(Ka, Kd, Ks, 100 * Kp, 0.8, 0.6, 0.4);
 	glBegin(GL_POLYGON);
@@ -110,8 +112,8 @@ void display() {
 	zAngle = 0;
 	// draw the cube
 	// glPushMatrix();
-	for (int x = 0; x < maze.getRowCount(); x++) {
-		for (int z = 0; z < maze.getColumnCount(); z++) {
+	for (int x = 0; x < maze.getColumnCount(); x++) {
+		for (int z = 0; z < maze.getRowCount(); z++) {
 			int height = 0;
 			char material = maze.getBlockMaterial(x, z);
 			if (material != ' ') {
@@ -206,21 +208,23 @@ void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float 
 //		}
 //}
 void init() {
+	glClearDepth(1.0f);
+	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_NORMALIZE);
 	init_light(GL_LIGHT0, 0, 1, 1, 0.5, 0.5, 0.5);
 
 	// Init texture
-	//int xdim, ydim;
-	//unsigned char *texture;
-	//// init_texture((char *)"textures/brick0.jpg", texture, xdim, ydim);
-	//glEnable(GL_TEXTURE_2D);
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, texture);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	/*int xdim, ydim;
+	unsigned char *texture;
+	init_texture((char *)"textures/brick0.jpg", texture, xdim, ydim);
+	glEnable(GL_TEXTURE_2D);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, texture);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);*/
 }
 int main(int argc, char* argv[]) {
 	const auto mazeFileName = "maze.txt";
