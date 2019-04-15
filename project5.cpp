@@ -130,7 +130,7 @@ void display() {
 		for (int z = 0; z < maze.getColumnCount(); z++) {
 			int height = 1;
 			if (maze.isVerticalBlock(x, z)) {
-				height = 3;
+					height = 3;
 			}
 			for (float y = 0; y < maze.getBlockXSize() * height; y += maze.getBlockXSize()) {
 				float xCoord = x * maze.getBlockXSize() - .6;
