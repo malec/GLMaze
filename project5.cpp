@@ -212,27 +212,27 @@ void display()
 }
 void keyboard(unsigned char key, int x, int y)
 {
-	if (key == 'x')
+	if (key == 'X')
 	{
 		xAngle -= 5;
 	}
-	else if (key == 'X')
+	else if (key == 'x')
 	{
 		xAngle += 5;
 	}
-	else if (key == 'y')
+	else if (key == 'Y')
 	{
 		yAngle -= 5;
 	}
-	else if (key == 'Y')
+	else if (key == 'y')
 	{
 		yAngle += 5;
 	}
-	else if (key == 'z')
+	else if (key == 'Z')
 	{
 		zAngle -= 5;
 	}
-	else if (key == 'Z')
+	else if (key == 'z')
 	{
 		zAngle += 5;
 	}
@@ -275,7 +275,7 @@ void init()
 	init_light(GL_LIGHT2, 1, 1, 0, 0.5, 0.5, 0.5);
 	init_light(GL_LIGHT3, 1, 0, 1, 0.5, 0.5, 0.5);
 
-	// Init grass texture
+	// Init textures
 	init_texture((char *)"textures/grass.jpg", grass, xdim, ydim);
 	init_texture((char *)"textures/brick.jpg", brick, xdim, ydim);
 	init_texture((char *)"textures/rock.jpg", rock, xdim, ydim);
