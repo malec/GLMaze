@@ -183,41 +183,27 @@ void display()
 				float yCoord = y * maze.getBlockYSize();
 				float zCoord = z * maze.getBlockZSize() - .5;
 				printf("%f, %f\n", x, z);
+				glEnable(GL_TEXTURE_2D);
 				if (material == ' ')
 				{
-					glEnable(GL_TEXTURE_2D);
 					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, grass);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				}
 				else if (material == 'r')
 				{
-					glEnable(GL_TEXTURE_2D);
 					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, rock);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				}
 				else if (material == 'b')
 				{
-					glEnable(GL_TEXTURE_2D);
 					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, brick);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				}
-				else if (material == 'w') {
-					glEnable(GL_TEXTURE_2D);
+				else if (material == 'w')
+				{
 					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, wood);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				}
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				block(xCoord, yCoord, zCoord, xCoord + maze.getBlockXSize(), yCoord + maze.getBlockYSize(), zCoord + maze.getBlockZSize());
 			}
 		}
@@ -258,10 +244,11 @@ void keyboard(unsigned char key, int x, int y)
 	}
 	glutPostRedisplay();
 }
-void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float Lg, float Lb) {
+void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float Lg, float Lb)
+{
 	// Light variables
-	float light_position[] = { Lx, Ly, Lz, 0.0 };
-	float light_color[] = { Lr, Lg, Lb, 1.0 };
+	float light_position[] = {Lx, Ly, Lz, 0.0};
+	float light_color[] = {Lr, Lg, Lb, 1.0};
 
 	// Initialize light source
 	glEnable(GL_LIGHTING);
@@ -278,6 +265,7 @@ void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float 
 }
 void init()
 {
+	yAngle = -90;
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_PROJECTION);
