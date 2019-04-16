@@ -143,6 +143,29 @@ void init_texture(char *name, unsigned char *&texture, int &xdim, int &ydim)
 			texture[index++] = (unsigned char)(image.B.Data2D[y][x]);
 		}
 }
+void setTexture(char material)
+{
+	if (material == ' ')
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, grass);
+	}
+	else if (material == 'r')
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, rock);
+	}
+	else if (material == 'b')
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, brick);
+	}
+	else if (material == 'w')
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, wood);
+	}
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+}
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -153,12 +176,16 @@ void display()
 	glRotatef(zAngle, 0.0, 0.0, 1.0);
 
 	//draw floor
-	init_material(Ka, Kd, Ks, 100 * Kp, 0.8, 0.6, 0.4);
+	setTexture(' ');
+	// init_material(Ka, Kd, Ks, 100 * Kp, 0.8, 0.6, 0.4);
 	glBegin(GL_POLYGON);
-	glColor3f(0.1, 0.1, 0.1);
+	glTexCoord2f(0, 0);
 	glVertex3f(-.8, 0, -.8);
+	glTexCoord2f(2.0, 0);
 	glVertex3f(-.8, 0, .8);
+	glTexCoord2f(2.0, 2.0);
 	glVertex3f(.8, 0, .8);
+	glTexCoord2f(0, 1.0);
 	glVertex3f(.8, 0, -.8);
 	glEnd();
 	xAngle = 0;
@@ -170,38 +197,18 @@ void display()
 	{
 		for (int z = 0; z < maze.getRowCount(); z++)
 		{
-			int height = 1;
+			int height = 3;
 			char material = maze.getBlockMaterial(x, z);
 			if (material != ' ')
 			{
-				height = 3;
+				float xCoord = x * maze.getBlockXSize() - .5;
+				float yCoord = height * maze.getBlockYSize();
+				float zCoord = z * maze.getBlockZSize() - .5;
+				printf("%f, %f\n", x, z);
+				glEnable(GL_TEXTURE_2D);
+				setTexture(material);
+				block(xCoord, 0, zCoord, xCoord + maze.getBlockXSize(), yCoord, zCoord + maze.getBlockZSize());
 			}
-			float xCoord = x * maze.getBlockXSize() - .5;
-			float yCoord = height * maze.getBlockYSize();
-			float zCoord = z * maze.getBlockZSize() - .5;
-			printf("%f, %f\n", x, z);
-			glEnable(GL_TEXTURE_2D);
-			if (material == ' ')
-			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, grass);
-			}
-			else if (material == 'r')
-			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, rock);
-			}
-			else if (material == 'b')
-			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, brick);
-			}
-			else if (material == 'w')
-			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, wood);
-			}
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			block(xCoord, 0, zCoord, xCoord + maze.getBlockXSize(), yCoord, zCoord + maze.getBlockZSize());
 		}
 	}
 	glFlush();
