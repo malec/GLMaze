@@ -6,10 +6,12 @@
 #include <GL/glut.h>
 #endif
 #include "Maze.h"
+#include "libim/im_color.h"
 
 Maze maze = Maze();
 
-void block(float xmin, float ymin, float zmin, float xmax, float ymax, float zmax) {
+void block(float xmin, float ymin, float zmin, float xmax, float ymax, float zmax, char type)
+{
 	// Define 8 vertices
 	float ax = xmin, ay = ymin, az = zmax;
 	float bx = xmax, by = ymin, bz = zmax;
@@ -38,7 +40,7 @@ void block(float xmin, float ymin, float zmin, float xmax, float ymax, float zma
 	glEnd();
 
 	glBegin(GL_POLYGON);
-	glColor3f(0.0, 0.0, 1.0);
+	// glColor3f(0.0, 0.0, 1.0);
 	glVertex3f(ax, ay, az);
 	glVertex3f(ex, ey, ez);
 	glVertex3f(fx, fy, fz);
@@ -46,7 +48,7 @@ void block(float xmin, float ymin, float zmin, float xmax, float ymax, float zma
 	glEnd();
 
 	glBegin(GL_POLYGON);
-	glColor3f(0.0, 1.0, 1.0);
+	//glColor3f(0.0, 1.0, 1.0);
 	glVertex3f(gx, gy, gz);
 	glVertex3f(fx, fy, fz);
 	glVertex3f(ex, ey, ez);
@@ -78,11 +80,12 @@ float Ka = 0.2;
 float Kd = 0.5;
 float Ks = 0.7;
 float Kp = 0.6;
-void init_material(float Ka, float Kd, float Ks, float Kp, float Mr, float Mg, float Mb) {
+void init_material(float Ka, float Kd, float Ks, float Kp, float Mr, float Mg, float Mb)
+{
 	// Material variables
-	float ambient[] = { Ka * Mr, Ka * Mg, Ka * Mb, 1.0 };
-	float diffuse[] = { Kd * Mr, Kd * Mg, Kd * Mb, 1.0 };
-	float specular[] = { Ks * Mr, Ks * Mg, Ks * Mb, 1.0 };
+	float ambient[] = {Ka * Mr, Ka * Mg, Ka * Mb, 1.0};
+	float diffuse[] = {Kd * Mr, Kd * Mg, Kd * Mb, 1.0};
+	float specular[] = {Ks * Mr, Ks * Mg, Ks * Mb, 1.0};
 
 	// Initialize material
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
@@ -90,7 +93,8 @@ void init_material(float Ka, float Kd, float Ks, float Kp, float Mr, float Mg, f
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, Kp);
 }
-void display() {
+void display()
+{
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	// glLoadIdentity();
@@ -112,28 +116,36 @@ void display() {
 	zAngle = 0;
 	// draw the cube
 	// glPushMatrix();
-	for (int x = 0; x < maze.getColumnCount(); x++) {
-		for (int z = 0; z < maze.getRowCount(); z++) {
+	for (int x = 0; x < maze.getColumnCount(); x++)
+	{
+		for (int z = 0; z < maze.getRowCount(); z++)
+		{
 			int height = 0;
 			char material = maze.getBlockMaterial(x, z);
-			if (material != ' ') {
+			if (material != ' ')
+			{
 				height = 3;
 			}
-			for (int y = 0; y < height; y++) {
+			for (int y = 0; y < height; y++)
+			{
 				float xCoord = x * maze.getBlockXSize() - .5;
 				float yCoord = y * maze.getBlockYSize();
 				float zCoord = z * maze.getBlockZSize() - .5;
 				printf("%f, %f\n", x, z);
-				if (material == 'g') {
+				if (material == 'g')
+				{
 					init_material(Ka, Kd, Ks, 100 * Kp, 0, 1.0, 0);
 				}
-				else if (material == 'r') {
+				else if (material == 'r')
+				{
 					init_material(Ka, Kd, Ks, 100 * Kp, 1.0, 0, 0);
 				}
-				else if (material == 'b') {
+				else if (material == 'b')
+				{
 					init_material(Ka, Kd, Ks, 100 * Kp, 0, 0, 1.0);
 				}
-				else {
+				else
+				{
 					init_material(Ka, Kd, Ks, 100 * Kp, 1, 1, 1);
 				}
 				block(xCoord, yCoord, zCoord, xCoord + maze.getBlockXSize(), yCoord + maze.getBlockYSize(), zCoord + maze.getBlockZSize());
@@ -142,33 +154,41 @@ void display() {
 	}
 	glFlush();
 }
-void keyboard(unsigned char key, int x, int y) {
-	if (key == 'x') {
+void keyboard(unsigned char key, int x, int y)
+{
+	if (key == 'x')
+	{
 		xAngle -= 5;
 	}
-	else if (key == 'X') {
+	else if (key == 'X')
+	{
 		xAngle += 5;
 	}
-	else if (key == 'y') {
+	else if (key == 'y')
+	{
 		yAngle -= 5;
 	}
-	else if (key == 'Y') {
+	else if (key == 'Y')
+	{
 		yAngle += 5;
 	}
-	else if (key == 'z') {
+	else if (key == 'z')
+	{
 		zAngle -= 5;
 	}
-	else if (key == 'Z') {
+	else if (key == 'Z')
+	{
 		zAngle += 5;
 	}
-	else if (key == 'r' || key == 'R') {
+	else if (key == 'r' || key == 'R')
+	{
 		xAngle = 0;
 		yAngle = 0;
 		zAngle = 0;
 	}
 	glutPostRedisplay();
 }
-void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float Lg, float Lb) {
+/*void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float Lg, float Lb) {
 	// Light variables
 	float light_position[] = { Lx, Ly, Lz, 0.0 };
 	float light_color[] = { Lr, Lg, Lb, 1.0 };
@@ -185,48 +205,57 @@ void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float 
 	glLightf(light_source, GL_QUADRATIC_ATTENUATION, 0.0);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+}*/
+void init_texture(char *name, unsigned char *&texture, int &xdim, int &ydim)
+{
+	// Read jpg image
+	// GLubyte myTextels[512][512];
+	im_color image;
+	image.ReadJpg(name);
+	printf("Reading image %s\n", name);
+	xdim = 1;
+	while (xdim < image.R.Xdim)
+		xdim *= 2;
+	xdim /= 2;
+	ydim = 1;
+	while (ydim < image.R.Ydim)
+		ydim *= 2;
+	ydim /= 2;
+	image.Interpolate(xdim, ydim);
+	printf("Interpolating to %d by %d\n", xdim, ydim);
+
+	// Copy image into texture array
+	texture = (unsigned char *)malloc((unsigned int)(xdim * ydim * 3));
+	int index = 0;
+	for (int y = 0; y < ydim; y++)
+		for (int x = 0; x < xdim; x++)
+		{
+			texture[index++] = (unsigned char)(image.R.Data2D[y][x]);
+			texture[index++] = (unsigned char)(image.G.Data2D[y][x]);
+			texture[index++] = (unsigned char)(image.B.Data2D[y][x]);
+		}
 }
-//void init_texture(char *name, unsigned char *&texture, int &xdim, int &ydim) {
-//	// Read jpg image
-//	// GLubyte myTextels[512][512];
-//	im_color image;
-//	image.ReadJpg(name);
-//	printf("Reading image %s\n", name);
-//	xdim = 1; while (xdim < image.R.Xdim) xdim *= 2; xdim /= 2;
-//	ydim = 1; while (ydim < image.R.Ydim) ydim *= 2; ydim /= 2;
-//	image.Interpolate(xdim, ydim);
-//	printf("Interpolating to %d by %d\n", xdim, ydim);
-//
-//	// Copy image into texture array
-//	texture = (unsigned char *)malloc((unsigned int)(xdim*ydim * 3));
-//	int index = 0;
-//	for (int y = 0; y < ydim; y++)
-//		for (int x = 0; x < xdim; x++) {
-//			texture[index++] = (unsigned char)(image.R.Data2D[y][x]);
-//			texture[index++] = (unsigned char)(image.G.Data2D[y][x]);
-//			texture[index++] = (unsigned char)(image.B.Data2D[y][x]);
-//		}
-//}
-void init() {
-	glClearDepth(1.0f);
-	glEnable(GL_DEPTH_TEST);
+void init()
+{
 	glClearColor(0.0, 0.0, 0.0, 1.0);
-	glShadeModel(GL_SMOOTH);
-	glEnable(GL_NORMALIZE);
-	init_light(GL_LIGHT0, 0, 1, 1, 0.5, 0.5, 0.5);
+	glEnable(GL_DEPTH_TEST);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	//init_light(GL_LIGHT0, 0, 1, 1, 0.5, 0.5, 0.5);
 
 	// Init texture
-	/*int xdim, ydim;
+	int xdim, ydim;
 	unsigned char *texture;
-	init_texture((char *)"textures/brick0.jpg", texture, xdim, ydim);
+	init_texture((char *)"textures/grass.jpg", texture, xdim, ydim);
 	glEnable(GL_TEXTURE_2D);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xdim, ydim, 0, GL_RGB, GL_UNSIGNED_BYTE, texture);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);*/
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 }
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
 	const auto mazeFileName = "maze.txt";
 	maze.readMazeFile(mazeFileName);
 	glutInit(&argc, argv);

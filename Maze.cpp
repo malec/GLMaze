@@ -49,7 +49,7 @@ void Maze::readMazeFile(std::string fileName) {
 			lineNumber++;
 		}
 	} else {
-		throw std::exception("Could not open the file.");
+		exit(1);
 	}
 }
 char Maze::getBlockMaterial(int x, int y) {
