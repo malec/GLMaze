@@ -358,6 +358,12 @@ void keyboard(unsigned char key, int x, int y)
 		player.moveLeft();
 		glutPostRedisplay();
 	}
+	if (std::tolower(key) == 'l') {
+		player.turnLeft();
+	}
+	if (std::tolower(key) == 'r') {
+		player.turnRight();
+	}
 }
 void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float Lg, float Lb)
 {

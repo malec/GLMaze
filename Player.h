@@ -11,10 +11,14 @@ class Player {
         void moveRight();
         void moveForwards();
         void moveBackwards();
+        void turnLeft();
+        void turnRight();
     	float playerMoveSpeed = 0.025;
     private:
         std::array<float, 3> playerPosition;
         float playerXSize;
         float playerYSize;
         float playerZSize;
+        int forwardIndex = 2;
+        int direction = 1;
 };

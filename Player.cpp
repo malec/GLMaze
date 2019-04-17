@@ -23,14 +23,23 @@ std::array<float, 3> Player::getPlayerMaxPosition()
     return {this->playerPosition[0] + playerXSize, this->playerPosition[1] + playerYSize, this->playerPosition[2] + playerZSize};
 }
 void Player::moveForwards() {
-    playerPosition[2] += playerMoveSpeed;
-}
-void Player::moveBackwards() {
-    playerPosition[2] -= playerMoveSpeed;
-}
-void Player::moveLeft() {
-    playerPosition[0] -= playerMoveSpeed;
+    playerPosition[2] += playerMoveSpeed * direction;
 }
 void Player::moveRight() {
-    playerPosition[0] += playerMoveSpeed;
+    playerPosition[0] += (playerMoveSpeed * direction);
+}
+void Player::moveBackwards() {
+    playerPosition[2] -= playerMoveSpeed * direction;
+}
+void Player::moveLeft() {
+    playerPosition[0] -= (playerMoveSpeed * direction);
+}
+void Player::turnLeft() {
+    this->direction = (this->forwardIndex == 2 ? this->forwardIndex * -1 : this->forwardIndex);
+    this-> forwardIndex = (this->forwardIndex == 2 ? 0 : 2);
+}
+
+void Player::turnRight() {
+    this->direction = (this->forwardIndex == 0 ? this->forwardIndex * -1 : this->forwardIndex);
+    this-> forwardIndex = (this->forwardIndex == 2 ? 0 : 2);
 }
