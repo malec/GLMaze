@@ -1,6 +1,7 @@
-#pragma once
 #include <string>
 #include <vector>
+#include <array>
+
 class Maze {
 public:
 	Maze();
@@ -11,6 +12,7 @@ public:
 	float getBlockYSize();
 	float getBlockZSize();
 	char getBlockMaterial(int x, int y);
+	std::array<float, 3> getInitialPosition();
 	~Maze();
 private:
 	const int headerLineCount = 2;

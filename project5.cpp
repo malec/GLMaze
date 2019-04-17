@@ -7,13 +7,16 @@
 #endif
 #include "Maze.h"
 #include "libim/im_color.h"
+#include "Player.h"
 
 Maze maze = Maze();
+Player player = Player();
 int xdim, ydim;
 unsigned char *grass;
 unsigned char *brick;
 unsigned char *rock;
 unsigned char *wood;
+
 void block(float xmin, float ymin, float zmin, float xmax, float ymax, float zmax)
 {
 	// Define 8 vertices
@@ -191,20 +194,25 @@ void display()
 	xAngle = 0;
 	yAngle = 0;
 	zAngle = 0;
-	// draw the cube
+	// draw the player
+	auto position = player.getPlayerPosition();
+	printf("player position: %f, %f, %f\n", position[0], position[1], position[2]);
+	auto maxPosition = player.getPlayerMaxPosition();
+	block(position[0], position[1], position[2], maxPosition[0], maxPosition[1], maxPosition[2]);
 	// glPushMatrix();
-	for (int x = 0; x < maze.getColumnCount(); x++)
+	for (int z = 0; z < maze.getRowCount(); z++)
 	{
-		for (int z = 0; z < maze.getRowCount(); z++)
+		for (int x = 0; x < maze.getColumnCount(); x++)
 		{
 			int height = 3;
-			char material = maze.getBlockMaterial(x, z);
+			char material = maze.getBlockMaterial(z, x);
 			if (material != ' ')
+				printf("%i, %i\n", z, x);
 			{
-				float xCoord = x * maze.getBlockXSize() - .5;
+				float xCoord = -.5 + x * maze.getBlockXSize();
 				float yCoord = height * maze.getBlockYSize();
-				float zCoord = z * maze.getBlockZSize() - .5;
-				printf("%f, %f\n", x, z);
+				float zCoord = .5 - z * maze.getBlockZSize();
+				printf("%f, %f, %f\n", xCoord, yCoord, zCoord);
 				glEnable(GL_TEXTURE_2D);
 				setTexture(material);
 				block(xCoord, 0, zCoord, xCoord + maze.getBlockXSize(), yCoord, zCoord + maze.getBlockZSize());
@@ -218,34 +226,60 @@ void keyboard(unsigned char key, int x, int y)
 	if (key == 'X')
 	{
 		xAngle -= 5;
+		glutPostRedisplay();
 	}
-	else if (key == 'x')
+	if (key == 'x')
 	{
 		xAngle += 5;
+		glutPostRedisplay();
 	}
-	else if (key == 'Y')
+	if (key == 'Y')
 	{
 		yAngle -= 5;
+		glutPostRedisplay();
 	}
-	else if (key == 'y')
+	if (key == 'y')
 	{
 		yAngle += 5;
+		glutPostRedisplay();
 	}
-	else if (key == 'Z')
+	if (key == 'Z')
 	{
 		zAngle -= 5;
+		glutPostRedisplay();
 	}
-	else if (key == 'z')
+	if (key == 'z')
 	{
 		zAngle += 5;
+		glutPostRedisplay();
 	}
-	else if (key == 'r' || key == 'R')
+	if (key == 'r' || key == 'R')
 	{
 		xAngle = 0;
 		yAngle = 0;
 		zAngle = 0;
+		glutPostRedisplay();
 	}
-	glutPostRedisplay();
+	if (std::tolower(key) == 'w')
+	{
+		player.moveForwards();
+		glutPostRedisplay();
+	}
+	if (std::tolower(key) == 's')
+	{
+		player.moveBackwards();
+		glutPostRedisplay();
+	}
+	if (std::tolower(key) == 'd')
+	{
+		player.moveRight();
+		glutPostRedisplay();
+	}
+	if (std::tolower(key) == 'a')
+	{
+		player.moveLeft();
+		glutPostRedisplay();
+	}
 }
 void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float Lg, float Lb)
 {
@@ -268,10 +302,15 @@ void init_light(int light_source, float Lx, float Ly, float Lz, float Lr, float 
 }
 void init()
 {
-	yAngle = -90;
+	const auto mazeFileName = "maze.txt";
+	maze.readMazeFile(mazeFileName);
+	// const float playerMargin = .0625;
+	player = Player(maze.getInitialPosition(), maze.getBlockXSize(), maze.getBlockYSize(), maze.getBlockZSize());
+	// yAngle = 90;
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_PROJECTION);
+	// glFrustum(-2.0, 2.0, -2.0, 2.0, 2.0, -2.0);
 	glLoadIdentity();
 	init_light(GL_LIGHT0, 0, 1, 1, 0.5, 0.5, 0.5);
 	init_light(GL_LIGHT1, 1, 0, 0, 0.5, 0.5, 0.5);
@@ -287,8 +326,6 @@ void init()
 
 int main(int argc, char *argv[])
 {
-	const auto mazeFileName = "maze.txt";
-	maze.readMazeFile(mazeFileName);
 	glutInit(&argc, argv);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(250, 250);
