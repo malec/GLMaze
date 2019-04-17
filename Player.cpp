@@ -32,44 +32,22 @@ void Player::playerMove(int i)
     {
     case 0:
     {
-        // get material location
-        int x = maze->getColumnCount() - (int)round((playerPosition[0] + .5) * maze->getColumnCount());
-        int y = (int)round((playerPosition[2] + .5) * maze->getRowCount()) - 1;
-        std::cout << "maze: \"" << maze->getBlockMaterial(x, y) << "\"" << std::endl;
-        if (maze->getBlockMaterial(x, y) == ' ')
-        {
-            playerPosition[2] += playerMoveSpeed;
-        }
+        playerPosition[2] += playerMoveSpeed;
         break;
     }
     case 1:
     {
-        int x = maze->getColumnCount() - (int)round((playerPosition[0] + .5) * maze->getColumnCount());
-        int y = (int)round((playerPosition[2] + .5) * maze->getRowCount())+1;
-        std::cout << "maze: \"" << maze->getBlockMaterial(x, y) << "\"" << std::endl;
-        if (maze->getBlockMaterial(x, y) == ' ')
-        {
-            playerPosition[0] += playerMoveSpeed;
-        }
+        playerPosition[0] += playerMoveSpeed;
         break;
     }
     case 2:
     {
-        int x = maze->getColumnCount() - (int)round((playerPosition[0] + .5) * maze->getColumnCount());
-        int y = (int)round((playerPosition[2] + .5) * maze->getRowCount());
-        std::cout << "x: " << x << "y: " << y << std::endl;
-        std::cout << "maze: \"" << maze->getBlockMaterial(x, y) << "\"" << std::endl;
-        if (maze->getBlockMaterial(x, y) == ' ')
-            playerPosition[2] -= playerMoveSpeed;
+        playerPosition[2] -= playerMoveSpeed;
         break;
     }
     case 3:
     {
-        int x = maze->getColumnCount() - (int)round((playerPosition[0] + .5) * maze->getColumnCount());
-        int y = (int)round((playerPosition[2] + .5) * maze->getRowCount()) - 1;
-        std::cout << "maze: \"" << maze->getBlockMaterial(x, y) << "\"" << std::endl;
-        if (maze->getBlockMaterial(x, y) == ' ')
-            playerPosition[0] -= (playerMoveSpeed);
+        playerPosition[0] -= (playerMoveSpeed);
         break;
     }
     default:
