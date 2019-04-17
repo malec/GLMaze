@@ -2,10 +2,6 @@ For project 5, I implemented a maze game using OpenGl. Where this project shines
 
 To develop this program, I first started by making a maze. I read in a text file that contains the boundaries and different types of materials that make up the maze's features. Depending on the block's material type, I mapped the texture onto the block using a third party C++ JPEG graphics library. I also added a playfield to give some perspective. I added lighting to the scene so the textures would stand out and be easier to see. Finally, I added the ability to rotate the game area on each axis so you can see the textures (X, Y and Z).
 
-Some problems I ran into involved performance. The time to redisplay the scene takes a while, and this problem occurred after I implemented texture mapping. However, the program still functions fine.
-
-I would have liked to been able to implement player movement, but I have struggled to get the world to transform. I have also run out of time to complete the project. I will come back to this project in the future to add finishing touches.
-
-Overall, I think this project is a success, because I have learned how to perform texture mapping, and use third party C++ libraries.
+Some problems I ran into involved performance. The time to redisplay the scene takes a while, and this problem occurred after I implemented texture mapping. However, the program still functions fine. Overall, I think this project is a success, because I have learned how to perform texture mapping, and use third party C++ libraries.
 
 
