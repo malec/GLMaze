@@ -223,32 +223,32 @@ void display()
 }
 void keyboard(unsigned char key, int x, int y)
 {
-	if (key == 'X')
+	if (key == 'x')
 	{
 		xAngle -= 5;
 		glutPostRedisplay();
 	}
-	if (key == 'x')
+	if (key == 'X')
 	{
 		xAngle += 5;
 		glutPostRedisplay();
 	}
-	if (key == 'Y')
+	if (key == 'y')
 	{
 		yAngle -= 5;
 		glutPostRedisplay();
 	}
-	if (key == 'y')
+	if (key == 'Y')
 	{
 		yAngle += 5;
 		glutPostRedisplay();
 	}
-	if (key == 'Z')
+	if (key == 'z')
 	{
 		zAngle -= 5;
 		glutPostRedisplay();
 	}
-	if (key == 'z')
+	if (key == 'Z')
 	{
 		zAngle += 5;
 		glutPostRedisplay();
@@ -305,6 +305,8 @@ void init()
 	const auto mazeFileName = "maze.txt";
 	maze.readMazeFile(mazeFileName);
 	// const float playerMargin = .0625;
+	const auto ip = maze.getInitialPosition();
+	printf("%f, %f, %f\n", ip[0], ip[1], ip[2]);
 	player = Player(maze.getInitialPosition(), maze.getBlockXSize(), maze.getBlockYSize(), maze.getBlockZSize());
 	// yAngle = 90;
 	glClearColor(0.0, 0.0, 0.0, 1.0);

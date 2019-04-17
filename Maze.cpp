@@ -51,8 +51,6 @@ void Maze::readMazeFile(std::string fileName)
 				int splitIndex = line.find(' ');
 				this->startRow = std::stoi(line.substr(0, splitIndex));
 				this->startColumn = std::stoi(line.substr(splitIndex + 1, line.length() - 1));
-				printf("startRow: %i\n", startRow);
-				printf("startRow: %i\n", startColumn);
 			}
 			else
 			{
@@ -75,7 +73,7 @@ char Maze::getBlockMaterial(int x, int y)
 }
 std::array<float, 3> Maze::getInitialPosition()
 {
-	return { 2 * this->startColumn / this->columnCount - 1, 0, 2 * this->startRow / this->rowCount - 1};
+	return { (float)this->startColumn / (float)this->columnCount - .5, 0, (float)this->startRow / (float)this->rowCount + .5};
 }
 Maze::~Maze()
 {
