@@ -1,5 +1,8 @@
 #include "Player.h"
 #include <array>
+#include <math.h>
+#include <iostream>
+
 Player::Player()
 {
     this->playerPosition = {0.0, 0.0, 0.0};
@@ -7,12 +10,13 @@ Player::Player()
     this->playerYSize = 0;
     this->playerZSize = 0;
 }
-Player::Player(std::array<float, 3> playerInitialPosition, float playerXSize, float playerYSize, float playerZSize)
+Player::Player(std::array<float, 3> playerInitialPosition, float playerXSize, float playerYSize, float playerZSize, Maze *maze)
 {
     this->playerPosition = playerInitialPosition;
     this->playerXSize = playerXSize;
     this->playerYSize = playerYSize;
     this->playerZSize = playerZSize;
+    this->maze = maze;
 }
 std::array<float, 3> Player::getPlayerPosition()
 {
@@ -27,17 +31,47 @@ void Player::playerMove(int i)
     switch (i % 4)
     {
     case 0:
-        playerPosition[2] += playerMoveSpeed;
+    {
+        // get material location
+        int x = maze->getColumnCount() - (int)round((playerPosition[0] + .5) * maze->getColumnCount());
+        int y = (int)round((playerPosition[2] + .5) * maze->getRowCount()) - 1;
+        std::cout << "maze: \"" << maze->getBlockMaterial(x, y) << "\"" << std::endl;
+        if (maze->getBlockMaterial(x, y) == ' ')
+        {
+            playerPosition[2] += playerMoveSpeed;
+        }
         break;
+    }
     case 1:
-        playerPosition[0] += playerMoveSpeed;
+    {
+        int x = maze->getColumnCount() - (int)round((playerPosition[0] + .5) * maze->getColumnCount());
+        int y = (int)round((playerPosition[2] + .5) * maze->getRowCount())+1;
+        std::cout << "maze: \"" << maze->getBlockMaterial(x, y) << "\"" << std::endl;
+        if (maze->getBlockMaterial(x, y) == ' ')
+        {
+            playerPosition[0] += playerMoveSpeed;
+        }
         break;
+    }
     case 2:
-        playerPosition[2] -= playerMoveSpeed;
+    {
+        int x = maze->getColumnCount() - (int)round((playerPosition[0] + .5) * maze->getColumnCount());
+        int y = (int)round((playerPosition[2] + .5) * maze->getRowCount());
+        std::cout << "x: " << x << "y: " << y << std::endl;
+        std::cout << "maze: \"" << maze->getBlockMaterial(x, y) << "\"" << std::endl;
+        if (maze->getBlockMaterial(x, y) == ' ')
+            playerPosition[2] -= playerMoveSpeed;
         break;
+    }
     case 3:
-        playerPosition[0] -= (playerMoveSpeed);
+    {
+        int x = maze->getColumnCount() - (int)round((playerPosition[0] + .5) * maze->getColumnCount());
+        int y = (int)round((playerPosition[2] + .5) * maze->getRowCount()) - 1;
+        std::cout << "maze: \"" << maze->getBlockMaterial(x, y) << "\"" << std::endl;
+        if (maze->getBlockMaterial(x, y) == ' ')
+            playerPosition[0] -= (playerMoveSpeed);
         break;
+    }
     default:
         break;
     }

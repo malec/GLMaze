@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <exception>
+#include <iostream>
 
 Maze::Maze()
 {
@@ -56,6 +57,7 @@ void Maze::readMazeFile(std::string fileName)
 			{
 				for (int currentColumn = 0; currentColumn < columnCount; currentColumn++)
 				{
+					std::cout << "text: \"" << line[currentColumn] << "\"" <<std::endl;
 					maze[lineNumber - headerLineCount][currentColumn] = line[currentColumn];
 				}
 			}
@@ -69,11 +71,18 @@ void Maze::readMazeFile(std::string fileName)
 }
 char Maze::getBlockMaterial(int x, int y)
 {
-	return this->maze[x][y];
+	if (x > getColumnCount() || y > getRowCount())
+	{
+		return 'b';
+	}
+	else
+	{
+		return this->maze[x][y];
+	}
 }
 std::array<float, 3> Maze::getInitialPosition()
 {
-	return { (float)this->startColumn / (float)this->columnCount - .5, 0, (float)this->startRow / (float)this->rowCount + .5};
+	return {(float)this->startColumn / (float)this->columnCount - .5, 0, (float)this->startRow / (float)this->rowCount + .5};
 }
 Maze::~Maze()
 {

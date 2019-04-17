@@ -1,10 +1,11 @@
 #include <vector>
 #include <array>
+#include "Maze.h"
 
 class Player {
     public:
         Player();
-        Player(std::array<float, 3> playerInitialPosition, float playerXSize, float playerYSize, float playerZSize);
+        Player(std::array<float, 3> playerInitialPosition, float playerXSize, float playerYSize, float playerZSize, Maze *mazePtr);
         std::array<float, 3> getPlayerPosition();
         std::array<float, 3> getPlayerMaxPosition();
         void moveLeft();
@@ -21,4 +22,5 @@ class Player {
         float playerZSize;
         int forwardIndex = 0;
         void playerMove(int i);
+        Maze *maze;
 };

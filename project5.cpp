@@ -5,7 +5,6 @@
 #else
 #include <GL/glut.h>
 #endif
-#include "Maze.h"
 #include "libim/im_color.h"
 #include "Player.h"
 
@@ -275,7 +274,7 @@ void display()
 	zAngle = 0;
 	// draw the player
 	auto position = player.getPlayerPosition();
-	printf("player position: %f, %f, %f\n", position[0], position[1], position[2]);
+	// printf("player position: %f, %f, %f\n", position[0], position[1], position[2]);
 	cube(position[0], position[1] + 0.03125/2, position[2], 0.03125, (float)201 / 255, (float)66 / 255, (float)68 / 255);
 	// glPushMatrix();
 	for (int z = 0; z < maze.getRowCount(); z++)
@@ -286,11 +285,11 @@ void display()
 			char material = maze.getBlockMaterial(z, x);
 			if (material != ' ')
 			{
-				printf("%i, %i\n", z, x);
+				// printf("%i, %i\n", z, x);
 				float xCoord = -.5 + x * maze.getBlockXSize();
 				float yCoord = height * maze.getBlockYSize();
 				float zCoord = .5 - z * maze.getBlockZSize();
-				printf("%f, %f, %f\n", xCoord, yCoord, zCoord);
+				// printf("%f, %f, %f\n", xCoord, yCoord, zCoord);
 				glEnable(GL_TEXTURE_2D);
 				setTexture(material);
 				block(xCoord, 0, zCoord, xCoord + maze.getBlockXSize(), yCoord, zCoord + maze.getBlockZSize());
@@ -391,7 +390,7 @@ void init()
 	// const float playerMargin = .0625;
 	const auto ip = maze.getInitialPosition();
 	printf("%f, %f, %f\n", ip[0], ip[1], ip[2]);
-	player = Player(maze.getInitialPosition(), maze.getBlockXSize(), maze.getBlockXSize(), maze.getBlockXSize());
+	player = Player(maze.getInitialPosition(), maze.getBlockXSize(), maze.getBlockXSize(), maze.getBlockXSize(), &maze);
 	// yAngle = 90;
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
