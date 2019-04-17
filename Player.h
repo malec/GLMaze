@@ -11,7 +11,7 @@ class Player {
         void moveRight();
         void moveForwards();
         void moveBackwards();
-    	float playerMoveSpeed = .0625;
+    	float playerMoveSpeed = 0.025;
     private:
         std::array<float, 3> playerPosition;
         float playerXSize;

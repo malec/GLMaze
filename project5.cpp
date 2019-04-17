@@ -276,7 +276,7 @@ void display()
 	// draw the player
 	auto position = player.getPlayerPosition();
 	printf("player position: %f, %f, %f\n", position[0], position[1], position[2]);
-	cube(position[0], position[1], position[2], .0625, (float)201 / 255, (float)66 / 255, (float)68 / 255);
+	cube(position[0], position[1] + 0.03125/2, position[2], 0.03125, (float)201 / 255, (float)66 / 255, (float)68 / 255);
 	// glPushMatrix();
 	for (int z = 0; z < maze.getRowCount(); z++)
 	{
@@ -385,7 +385,7 @@ void init()
 	// const float playerMargin = .0625;
 	const auto ip = maze.getInitialPosition();
 	printf("%f, %f, %f\n", ip[0], ip[1], ip[2]);
-	player = Player(maze.getInitialPosition(), maze.getBlockXSize(), maze.getBlockYSize(), maze.getBlockZSize());
+	player = Player(maze.getInitialPosition(), maze.getBlockXSize(), maze.getBlockXSize(), maze.getBlockXSize());
 	// yAngle = 90;
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
