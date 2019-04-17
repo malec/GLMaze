@@ -19,6 +19,6 @@ class Player {
         float playerXSize;
         float playerYSize;
         float playerZSize;
-        int forwardIndex = 2;
-        int direction = 1;
+        int forwardIndex = 0;
+        void playerMove(int i);
 };
